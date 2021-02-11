@@ -9,25 +9,12 @@ document.addEventListener('DOMContentLoaded', async function(event) {
     let todoText = document.querySelector('#todo').value
 
     if (todoText.length > 0) {
-      let docRef = await db.collection('todos').add({
-        text: todoText
-      })
-
-      let todoId = docRef.id
-      console.log(`new todo with ID ${todoId} created`)
-
       document.querySelector('.todos').insertAdjacentHTML('beforeend', `
-        <div class="todo-${todoId} py-4 text-xl border-b-2 border-purple-500 w-full">
-          <a href="#" class="done p-2 text-sm bg-green-500 text-white">✓</a>
+        <div class="py-4 text-xl border-b-2 border-purple-500 w-full">
           ${todoText}
         </div>
       `)
 
-      document.querySelector(`.todo-${todoId} .done`).addEventListener('click', async function(event) {
-        event.preventDefault()
-        document.querySelector(`.todo-${todoId}`).classList.add('opacity-20')
-        await db.collection('todos').doc(todoId).delete()
-      })
       document.querySelector('#todo').value = ''
     }
   })
@@ -44,7 +31,6 @@ document.addEventListener('DOMContentLoaded', async function(event) {
 
     document.querySelector('.todos').insertAdjacentHTML('beforeend', `
       <div class="py-4 text-xl border-b-2 border-purple-500 w-full">
-        <a href="#" class="done p-2 text-sm bg-green-500 text-white">✓</a>
         ${todoText}
       </div>
     `)
